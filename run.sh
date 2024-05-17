@@ -8,6 +8,5 @@
 #SBATCH --mem-per-cpu 3G
 #SBATCH --mail-type FAIL,END
 
-rm slurm*.out
 conda activate tf2gpu
 python3 MIA.py
