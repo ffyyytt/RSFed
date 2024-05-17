@@ -1,7 +1,8 @@
-import model.Margin
 import tensorflow as tf
 import keras_cv_attention_models
 import classification_models.keras
+
+from model import Margin
 
 def get_backbone(backbone_name, x):
     if hasattr(tf.keras.applications, backbone_name):
