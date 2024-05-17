@@ -4,7 +4,7 @@ import tensorflow as tf
 
 from sklearn.model_selection import StratifiedKFold
 
-from data import ImageLoader
+from data.ImageLoader import *
 
 def split_dirichlet(l, n):
     a = (np.random.dirichlet(np.ones(n))*len(l)).astype(np.int32)
