@@ -49,5 +49,5 @@ nonmemProb = model.predict(valid_dataset)
 X = np.vstack([memberProb, nonmemProb])
 Y = np.array([1]*len(memberProb) + [0]*len(nonmemProb))
 
-with open(f"data", 'wb') as handle:
+with open(f"data.picle", 'wb') as handle:
     pickle.dump([X, Y], handle, protocol=pickle.HIGHEST_PROTOCOL)
