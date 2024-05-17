@@ -29,8 +29,8 @@ labels = np.array([labelset[label] for label in labels])
 trainImagePaths, validImagePaths, trainLabels, validLabels = train_test_split(imagePaths, labels, test_size = 0.3, shuffle=True, random_state=1312)
 
 valid_transform  = A.Compose([A.Resize(width=256, height=256)])
-train_dataset = load_dataset(trainLabels, trainImagePaths, valid_transform, False)
-valid_dataset = load_dataset(validLabels, validImagePaths, valid_transform, False)
+train_dataset = load_dataset(trainLabels, trainImagePaths, valid_transform, AUTO)
+valid_dataset = load_dataset(validLabels, validImagePaths, valid_transform, AUTO)
 
 with strategy.scope():
     model = simple_model_factory(backbones = "resnet18",

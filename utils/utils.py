@@ -23,5 +23,5 @@ def strategy():
             strategy = tf.distribute.MirroredStrategy(gpus)
         else:
             strategy = tf.distribute.get_strategy()
-    AUTO = 8
+    AUTO = tf.data.experimental.AUTOTUNE
     return strategy, AUTO
