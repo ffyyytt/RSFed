@@ -26,7 +26,7 @@ for k, v in labelset.items():
     labelset[k] = a
 imagePaths = np.array(imagePaths)
 labels = np.array([labelset[label] for label in labels])
-trainImagePaths, validImagePaths, trainLabels, validLabels = train_test_split(imagePaths, labels, test_size = 0.3, shuffle=True, random_state=config["seed"])
+trainImagePaths, validImagePaths, trainLabels, validLabels = train_test_split(imagePaths, labels, test_size = 0.3, shuffle=True, random_state=1312)
 
 valid_transform  = A.Compose([A.Resize(width=256, height=256)])
 train_dataset = load_dataset(trainLabels, trainImagePaths, valid_transform, False)
