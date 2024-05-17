@@ -33,7 +33,7 @@ train_dataset = load_dataset(trainLabels, trainImagePaths, valid_transform, AUTO
 valid_dataset = load_dataset(validLabels, validImagePaths, valid_transform, AUTO)
 
 with strategy.scope():
-    model = simple_model_factory(backbones = "resnet18",
+    model = simple_model_factory(backbone = "resnet18",
                                  n_classes = len(labelset))
     
     model.compile(optimizer = "SGD",
