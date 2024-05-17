@@ -24,5 +24,4 @@ def strategy():
         else:
             strategy = tf.distribute.get_strategy()
     AUTO = tf.data.experimental.AUTOTUNE
-    np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
     return strategy, AUTO
