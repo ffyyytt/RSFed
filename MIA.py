@@ -8,6 +8,7 @@ import pickle
 import tensorflow as tf
 import albumentations as A
 
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
 strategy, AUTO = strategy()
@@ -49,5 +50,7 @@ nonmemProb = model.predict(valid_dataset)
 X = np.vstack([memberProb, nonmemProb])
 Y = np.array([1]*len(memberProb) + [0]*len(nonmemProb))
 
-with open(f"data.picle", 'wb') as handle:
-    pickle.dump([X, Y], handle, protocol=pickle.HIGHEST_PROTOCOL)
+X_train, X_valid, y_train, y_valid = train_test_split(X, Y, test_size = 0.33, shuffle=True, random_state=1312)
+clf = DecisionTreeClassifier(random_state=1312)
+clf.fit(X_train, y_train)
+print(f"Train score: {clf.score(X_train, y_train)}; Valid score: {clf.score(X_valid, y_valid)}")
