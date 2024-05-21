@@ -1,15 +1,13 @@
 from data.uils import *
 from model.utils import *
 from utils.utils import *
+from callbacks.MIA import *
 
 import os
 import glob
 import pickle
 import tensorflow as tf
 import albumentations as A
-
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
 
 strategy, AUTO = strategy()
 
@@ -41,16 +39,9 @@ with strategy.scope():
                   loss = [tf.keras.losses.CategoricalCrossentropy()],
                   metrics = [tf.keras.metrics.CategoricalAccuracy()])
     
+    mia = MIA(train_dataset, valid_dataset)
+    
 model.fit(train_dataset,
+          callbacks = [mia],
           validation_data = valid_dataset,
           epochs = 10, verbose = 0)
-
-memberProb = model.predict(train_dataset)
-nonmemProb = model.predict(valid_dataset)
-X = np.vstack([memberProb, nonmemProb])
-Y = np.array([1]*len(memberProb) + [0]*len(nonmemProb))
-
-X_train, X_valid, y_train, y_valid = train_test_split(X, Y, test_size = 0.33, shuffle=True, random_state=1312)
-clf = DecisionTreeClassifier(random_state=1312)
-clf.fit(X_train, y_train)
-print(f"Train score: {clf.score(X_train, y_train)}; Valid score: {clf.score(X_valid, y_valid)}")
