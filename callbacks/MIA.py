@@ -10,8 +10,8 @@ class MIA(tf.keras.callbacks.Callback):
         self.nonmem = nonmem
 
     def on_epoch_end(self, epoch, logs={}):
-        memberProb = self.model.predict(self.member)
-        nonmemProb = self.model.predict(self.nonmem)
+        memberProb = self.model.predict(self.member, verbose = 0)
+        nonmemProb = self.model.predict(self.nonmem, verbose = 0)
 
         X = np.vstack([memberProb, nonmemProb])
         Y = np.array([1]*len(memberProb) + [0]*len(nonmemProb))

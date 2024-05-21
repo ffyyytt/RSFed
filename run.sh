@@ -9,4 +9,4 @@
 #SBATCH --mail-type FAIL,END
 
 conda activate tf2gpu
-python3 MIA.py
+python3 main.py

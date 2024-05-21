@@ -44,4 +44,4 @@ with strategy.scope():
 model.fit(train_dataset,
           callbacks = [mia],
           validation_data = valid_dataset,
-          epochs = 10, verbose = 0)
+          epochs = 40, verbose = 1)

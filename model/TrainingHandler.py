@@ -2,23 +2,19 @@ import numpy as np
 from tqdm import trange
 
 class TrainingHandler():
-    def __init__(self, models, datasets, valid_labels, train_dataset, valid_dataset):
+    def __init__(self, models, datasets, callbacks):
         self.models = models
         self.datasets = datasets
-
-        self.valid_labels = valid_labels
-        self.train_dataset = train_dataset
-        self.valid_dataset = valid_dataset
+        self.callbacks = callbacks
 
     def do_one_round(self, round, local_epochs):
-        valid_acc = []
         for i in trange(len(self.models)):
             self.models[i].fit(self.datasets[i], verbose = 0, epochs = local_epochs)
 
-    def evaluate(self):
-        y_pred = np.argmax(self.models[0].predict(self.valid_dataset, verbose = 0), axis = 1)
-        valid_acc = np.mean(y_pred==np.argmax(self.valid_labels, axis = 1))
-        return valid_acc
+    def callbacks(self, round):
+        for callback in self.callbacks:
+            callback.model = self.model[0]
+            callback.on_epoch_end(round)
     
     def on_round_end(self, round):
         weights = []
@@ -34,4 +30,4 @@ class TrainingHandler():
             print(f"Round: {round}/{rounds}")
             self.do_one_round(round, local_epochs)
             self.on_round_end(round)
-            print(f"Accuracy: {self.evaluate()}")
+            self.callbacks(round)
