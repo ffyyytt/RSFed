@@ -20,12 +20,9 @@ class TrainingHandler():
         weights = []
         for model in self.models:
             weights.append(model.trainable_variables)
-        print(weights)
-        print(np.average(weights, axis = 0))
-        weights_mean = np.average(weights, axis = 0)
         for i in range(len(self.models)):
             for j in range(len(self.models[i].trainable_variables)):
-                self.models[i].trainable_variables[j].assign(weights_mean[j])
+                self.models[i].trainable_variables[j].assign(np.average([weights[k][j] for k in range(len(self.models))]))
 
     def fit(self, rounds, local_epochs):
         for round in trange(rounds):
