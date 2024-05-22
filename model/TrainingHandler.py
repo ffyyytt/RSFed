@@ -13,7 +13,7 @@ class TrainingHandler():
 
     def do_callbacks(self, round):
         for callback in self.callbacks:
-            callback.model = self.model[0]
+            callback.model = self.models[0]
             callback.on_epoch_end(round)
     
     def on_round_end(self, round):
