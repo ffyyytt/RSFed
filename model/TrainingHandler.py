@@ -11,7 +11,7 @@ class TrainingHandler():
         for i in trange(len(self.models)):
             self.models[i].fit(self.datasets[i], verbose = 0, epochs = local_epochs)
 
-    def callbacks(self, round):
+    def do_callbacks(self, round):
         for callback in self.callbacks:
             callback.model = self.model[0]
             callback.on_epoch_end(round)
@@ -29,4 +29,4 @@ class TrainingHandler():
             print(f"Round: {round}/{rounds}")
             self.do_one_round(round, local_epochs)
             self.on_round_end(round)
-            self.callbacks(round)
+            self.do_callbacks(round)
