@@ -1,8 +1,11 @@
 import numpy as np
+import tensorflow as tf
 from tqdm import trange
 
 class TrainingHandler():
-    def __init__(self, models, datasets, callbacks):
+    def __init__(self, method, server, models, datasets, callbacks):
+        self.method = method
+        self.server = server
         self.models = models
         self.datasets = datasets
         self.callbacks = callbacks
@@ -15,14 +18,24 @@ class TrainingHandler():
         for callback in self.callbacks:
             callback.model = self.models[0]
             callback.on_epoch_end(round)
+
+    def broadcast(self, round):
+        for i in range(len(self.models)):
+            for j in range(len(self.models[i].trainable_variables)):
+                self.models[i].trainable_variables[j].assign(self.server.trainable_variables[j])
     
     def on_round_end(self, round):
         weights = []
         for model in self.models:
             weights.append(model.trainable_variables)
-        for i in range(len(self.models)):
-            for j in range(len(self.models[i].trainable_variables)):
-                self.models[i].trainable_variables[j].assign(np.average([weights[k][j] for k in range(len(self.models))], axis = 0))
+        if self.method == "FedAVG":
+            for i in range(len(self.server.trainable_variables)):
+                self.server.trainable_variables[i].assign(np.average([weights[k][i] for k in range(len(self.models))], axis = 0))
+        elif self.method == "FedNova":
+            for i in range(len(self.server.trainable_variables)):
+                w = tf.math.reduce_mean([tf.math.l2_normalize(weights[k][i] - self.server.trainable_variables[i]) for k in range(len(self.models))], axis = 0)
+                print(w)
+                print(np.average([weights[k][i] for k in range(len(self.models))], axis = 0)-self.server.trainable_variables[i])
 
     def fit(self, rounds, local_epochs):
         for round in trange(rounds):

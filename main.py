@@ -47,6 +47,6 @@ with strategy.scope():
         flModels.append(_model)
     
     mia = MIA(train_dataset, valid_dataset)
-    trainingHandler = TrainingHandler(flModels, train_federated_dataset, [mia])
+    trainingHandler = TrainingHandler(model, flModels, train_federated_dataset, [mia])
 
 trainingHandler.fit(rounds = 10, local_epochs = 5)
