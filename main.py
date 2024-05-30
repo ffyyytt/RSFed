@@ -49,6 +49,6 @@ with strategy.scope():
     
     mia = MIA(train_dataset, valid_dataset)
     eval = Evaluate(valid_dataset, validLabels)
-    trainingHandler = TrainingHandler("FedNova", model, flModels, train_federated_dataset, [eval, mia])
+    trainingHandler = TrainingHandler("FedAVG", model, flModels, train_federated_dataset, [eval, mia])
 
 trainingHandler.fit(rounds = 10, local_epochs = 5)
