@@ -4,7 +4,7 @@ import tensorflow as tf
 class Evaluate(tf.keras.callbacks.Callback):
     def __init__(self, data, label):
         self.data = data
-        self.label = label
+        self.label = np.argmax(label, axis = 1)
 
     def on_epoch_end(self, epoch, logs={}):
         predProb = self.model.predict(self.data, verbose = 0)
