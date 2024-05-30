@@ -1,13 +1,17 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
+import glob
+import pickle
+import tensorflow as tf
+import albumentations as A
+
 from data.uils import *
 from model.utils import *
 from utils.utils import *
 from callbacks.utils import *
 
-import os
-import glob
-import pickle
-import tensorflow as tf
-import albumentations as A
+
 
 seedBasic(1312)
 strategy, AUTO = strategy()
