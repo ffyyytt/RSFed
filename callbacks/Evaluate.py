@@ -7,6 +7,6 @@ class Evaluate(tf.keras.callbacks.Callback):
         self.label = label
 
     def on_epoch_end(self, epoch, logs={}):
-        predProb = self.model.predict(self.member, verbose = 0)
+        predProb = self.model.predict(self.data, verbose = 0)
         pred = np.argmax(predProb, axis = 1)
         print(f"Accuracy: {np.mean(pred == self.label)}")
