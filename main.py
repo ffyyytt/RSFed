@@ -1,13 +1,14 @@
 from data.uils import *
 from model.utils import *
 from utils.utils import *
-from callbacks.MIA import *
+from callbacks.utils import *
 
 import os
 import glob
 import pickle
 import tensorflow as tf
 import albumentations as A
+
 
 strategy, AUTO = strategy()
 
@@ -47,6 +48,7 @@ with strategy.scope():
         flModels.append(_model)
     
     mia = MIA(train_dataset, valid_dataset)
-    trainingHandler = TrainingHandler("FedNova", model, flModels, train_federated_dataset, [mia])
+    eval = Evaluate(valid_dataset, validLabels)
+    trainingHandler = TrainingHandler("FedNova", model, flModels, train_federated_dataset, [eval, mia])
 
 trainingHandler.fit(rounds = 10, local_epochs = 5)
