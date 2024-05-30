@@ -34,9 +34,7 @@ class TrainingHandler():
         elif self.method == "FedNova":
             for i in range(len(self.server.trainable_variables)):
                 w = tf.math.reduce_mean([tf.math.l2_normalize(weights[k][i] - self.server.trainable_variables[i]) for k in range(len(self.models))], axis = 0)
-                
-                print(w)
-                print(np.average([weights[k][i] for k in range(len(self.models))], axis = 0)-self.server.trainable_variables[i])
+                print(np.mean(w/np.average([weights[k][i] for k in range(len(self.models))], axis = 0)-self.server.trainable_variables[i]))
 
                 self.server.trainable_variables[i].assign(self.server.trainable_variables[i] + w)
 
