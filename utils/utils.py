@@ -9,7 +9,7 @@ def seedBasic(seed=1312):
     np.random.seed(seed)
     tf.random.set_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
-    os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"
+    os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 def strategy():
     try:

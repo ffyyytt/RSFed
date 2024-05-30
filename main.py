@@ -9,7 +9,7 @@ import pickle
 import tensorflow as tf
 import albumentations as A
 
-
+seedBasic(1312)
 strategy, AUTO = strategy()
 
 labels = []
